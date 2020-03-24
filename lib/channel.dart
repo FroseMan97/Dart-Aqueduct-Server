@@ -1,7 +1,8 @@
 import 'package:aqueduct/managed_auth.dart';
+import 'package:car_drivers/controllers/cars_controller.dart';
+import 'package:car_drivers/controllers/random_controller.dart';
 import 'car_drivers.dart';
 import 'controllers/car_drivers_controller.dart';
-import 'controllers/niggers_controller.dart';
 import 'controllers/register_controller.dart';
 import 'html_template.dart';
 import 'models/user_model.dart';
@@ -42,8 +43,9 @@ class AppChannel extends ApplicationChannel
   Controller get entryPoint {
     final router = Router();
 
-
-    router.route('/auth/token').link(() => AuthController(authServer));
+    router
+        .route('/auth/token')
+        .link(() => AuthController(authServer));
 
     router
         .route("/auth/code")
@@ -53,8 +55,16 @@ class AppChannel extends ApplicationChannel
         .route("/drivers/[:id]")
         .link(() => Authorizer.bearer(authServer))
         .link(() => CarDriversController(context));
-
-    router.route('/niggers').link(() => NiggersController());
+    
+    router
+        .route('/cars/[:id]')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => CarsController(context));
+    
+    router
+        .route('/random')
+        .link(() => Authorizer.bearer(authServer))
+        .link(() => RandomController(context));
 
     router
         .route('/register')

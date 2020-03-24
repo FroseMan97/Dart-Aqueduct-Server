@@ -4,7 +4,8 @@ import 'package:car_drivers/channel.dart';
 Future main() async {
   final app = Application<AppChannel>()
       ..options.configurationFilePath = "config.yaml"
-      //..options.address = '172.20.10.3'
+      ..options.address = '172.20.10.3'
+      //..options.address = '192.168.137.243'
       ..options.port = 8080;
 
   final count = Platform.numberOfProcessors ~/ 2;

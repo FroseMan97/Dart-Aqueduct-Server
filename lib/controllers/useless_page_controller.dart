@@ -2,7 +2,7 @@
 
 import '../car_drivers.dart';
 
-class NiggersController extends ResourceController {
+class UselessPageController extends ResourceController {
 
   @Operation.get()
   Future<Response> getAllDrivers(

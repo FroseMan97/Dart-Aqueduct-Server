@@ -7,11 +7,12 @@ class HTMLRenderer {
   Future<String> renderHTML(
       String path, Map<String, String> templateVariables) async {
     final template = await _loadHTMLTemplate(path);
-
-    return template.replaceAllMapped(RegExp("{{([a-zA-Z_]+)}}"), (match) {
+    final result = template.replaceAllMapped(RegExp("{{([a-zA-Z_]+)}}"), (match) {
       final key = match.group(1);
       return templateVariables[key] ?? "null";
     });
+    print(result);
+    return result;
   }
 
   Future<String> _loadHTMLTemplate(String path) async {
