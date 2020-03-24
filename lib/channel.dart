@@ -53,17 +53,17 @@ class AppChannel extends ApplicationChannel
 
     router
         .route("/drivers/[:id]")
-        .link(() => Authorizer.bearer(authServer))
+        //.link(() => Authorizer.bearer(authServer))
         .link(() => CarDriversController(context));
     
     router
         .route('/cars/[:id]')
-        .link(() => Authorizer.bearer(authServer))
+        //.link(() => Authorizer.bearer(authServer))
         .link(() => CarsController(context));
     
     router
         .route('/random')
-        .link(() => Authorizer.bearer(authServer))
+        //.link(() => Authorizer.bearer(authServer))
         .link(() => RandomController(context));
 
     router
