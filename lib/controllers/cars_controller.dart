@@ -7,7 +7,7 @@ class CarsController extends ResourceController {
 
   final ManagedContext context;
 
-  /// Получить всех водителей
+  /// Получить все авто
   @Operation.get()
   Future<Response> getAllCars({@Bind.query('name') String name}) async {
     final carQuery = Query<Car>(context);
@@ -21,7 +21,7 @@ class CarsController extends ResourceController {
     });
   }
 
-  /// Получить водителя по его id
+  /// Получить авто по его id
   @Operation.get('id')
   Future<Response> getCarByID(@Bind.path('id') int id) async {
     final carQuery = Query<Car>(context)
