@@ -3,7 +3,7 @@
 
  Getting started https://aqueduct.io/docs/tut/getting-started/
  
- БД PostgreSQL,
+ БД PostgreSQL (в репо не лежит),
  Авторизация OAuth 2,
  SSL (self-signed)
  
