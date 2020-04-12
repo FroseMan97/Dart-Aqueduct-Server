@@ -1,6 +1,7 @@
 import 'package:aqueduct/managed_auth.dart';
 import 'package:car_drivers/controllers/cars_controller.dart';
 import 'package:car_drivers/controllers/random_controller.dart';
+import 'package:car_drivers/controllers/useless_page_controller.dart';
 import 'car_drivers.dart';
 import 'controllers/car_drivers_controller.dart';
 import 'controllers/register_controller.dart';
@@ -69,6 +70,10 @@ class AppChannel extends ApplicationChannel
     router
         .route('/register')
         .link(() => RegisterController(context, authServer));
+    
+    router
+        .route('/locale')
+        .link(() => UselessPageController());
 
     return router;
   }
