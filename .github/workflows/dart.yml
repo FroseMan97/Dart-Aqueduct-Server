@@ -19,6 +19,6 @@ jobs:
     - name: Install dependencies
       run: pub get
     - name: setup aqueduct
-      run: aqueduct setup
+      run: aqueduct setup -c
     - name: Run tests
       run: pub run test
