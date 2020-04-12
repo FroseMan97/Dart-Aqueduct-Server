@@ -18,5 +18,6 @@
  
  * Для предмета java интернет-приложения есть useless controller, в котором кое-какая интернационализация для галочки
  
- <img src="screens/1.PNG" width="285" height="570"> <img src="screens/2.PNG" width="285" height="570"> <img src="screens/3.PNG" width="285" height="570">
+ <img src="screens/1.PNG" width="285" height="570"> <img src="screens/2.PNG" width="285" height="570"> <img src="screens/3.PNG" width="285" height="570"> 
+ <img src="screens/schema.png">
  

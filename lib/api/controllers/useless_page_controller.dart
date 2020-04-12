@@ -1,6 +1,4 @@
-
-
-import '../car_drivers.dart';
+import '../../car_drivers.dart';
 
 class UselessPageController extends ResourceController {
 

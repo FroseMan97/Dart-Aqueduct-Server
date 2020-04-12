@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:car_drivers/car_drivers.dart';
-import 'package:car_drivers/models/user_model.dart';
+import 'package:car_drivers/data/models/user_model.dart';
 
 class RegisterController extends ResourceController {
   RegisterController(this.context, this.authServer);
@@ -9,7 +9,7 @@ class RegisterController extends ResourceController {
   final AuthServer authServer;
 
   @Operation.post()
-  Future<Response> createUser(@Bind.body() User user) async {
+  Future<Response> createUser(@Bind.body() UserModel user) async {
     if (user.username == null || user.password == null) {
       return Response.badRequest(
         body: {"error": "username and password required."});

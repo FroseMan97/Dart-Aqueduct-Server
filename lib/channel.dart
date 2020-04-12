@@ -1,16 +1,41 @@
 import 'package:aqueduct/managed_auth.dart';
-import 'package:car_drivers/controllers/cars_controller.dart';
-import 'package:car_drivers/controllers/random_controller.dart';
+import 'package:car_drivers/api/controllers/cars_controller.dart';
+import 'package:car_drivers/api/controllers/drivers_controller.dart';
+import 'package:car_drivers/api/controllers/random_controller.dart';
+import 'package:car_drivers/data/datasource/car_datasource.dart';
+import 'package:car_drivers/data/datasource/driver_datasource.dart';
+import 'package:car_drivers/data/repository/car_repository_impl.dart';
+import 'package:car_drivers/data/repository/driver_repository_impl.dart';
+import 'package:car_drivers/domain/repository/car_repository.dart';
+import 'package:car_drivers/domain/repository/driver_repository.dart';
+import 'package:car_drivers/domain/usecase/collect_random_pair_usecase.dart';
+import 'package:car_drivers/domain/usecase/create_car_usecase.dart';
+import 'package:car_drivers/domain/usecase/create_driver_usecase.dart';
+import 'package:car_drivers/domain/usecase/delete_car_usecase.dart';
+import 'package:car_drivers/domain/usecase/delete_driver_usecase.dart';
+import 'package:car_drivers/domain/usecase/get_car_usecase.dart';
+import 'package:car_drivers/domain/usecase/get_cars_usecase.dart';
+import 'package:car_drivers/domain/usecase/get_driver_usecase.dart';
+import 'package:car_drivers/domain/usecase/get_drivers_usecase.dart';
 import 'car_drivers.dart';
-import 'controllers/car_drivers_controller.dart';
-import 'controllers/register_controller.dart';
+import 'api/controllers/register_controller.dart';
+import 'data/models/user_model.dart';
 import 'html_template.dart';
-import 'models/user_model.dart';
 
-class AppChannel extends ApplicationChannel
-    implements AuthRedirectControllerDelegate {
+class AppChannel extends ApplicationChannel {
   ManagedContext context;
   AuthServer authServer;
+
+  GetCarUsecase getCarUsecase;
+  GetCarsUsecase getCarsUsecase;
+  GetDriverUsecase getDriverUsecase;
+  GetDriversUsecase getDriversUsecase;
+  CreateCarUsecase createCarUsecase;
+  CreateDriverUsecase createDriverUsecase;
+  DeleteCarUsecase deleteCarUsecase;
+  DeleteDriverUsecase deleteDriverUsecase;
+  CollectRandomPairUsecase collectRandomPairUsecase;
+
   final HTMLRenderer htmlRenderer = HTMLRenderer();
 
   @override
@@ -35,40 +60,100 @@ class AppChannel extends ApplicationChannel
 
     context = ManagedContext(dataModel, persistentStore);
 
-    final authStorage = ManagedAuthDelegate<User>(context);
+    final authStorage = ManagedAuthDelegate<UserModel>(context);
     authServer = AuthServer(authStorage);
+
+    final CarDatasource carDatasource = CarDatasource(
+      context,
+    );
+    final DriverDatasource driverDatasource = DriverDatasource(
+      context,
+    );
+    final IDriverRepository driverRepository = DriverRepository(
+      driverDatasource: driverDatasource,
+    );
+    final ICarRepository carRepository = CarRepository(
+      carDatasource: carDatasource,
+    );
+    getCarUsecase = GetCarUsecase(
+      carRepository,
+    );
+    getCarsUsecase = GetCarsUsecase(
+      carRepository,
+    );
+    getDriverUsecase = GetDriverUsecase(
+      driverRepository,
+    );
+    getDriversUsecase = GetDriversUsecase(
+      driverRepository,
+    );
+    createCarUsecase = CreateCarUsecase(
+      carRepository,
+    );
+    createDriverUsecase = CreateDriverUsecase(
+      driverRepository,
+    );
+    deleteCarUsecase = DeleteCarUsecase(
+      carRepository,
+    );
+    deleteDriverUsecase = DeleteDriverUsecase(
+      driverRepository,
+    );
+    collectRandomPairUsecase = CollectRandomPairUsecase(
+      carRepository,
+      driverRepository,
+    );
   }
 
   @override
   Controller get entryPoint {
     final router = Router();
 
-    router
-        .route('/auth/token')
-        .link(() => AuthController(authServer));
-
-    router
-        .route("/auth/code")
-        .link(() => AuthRedirectController(authServer, delegate: this));
+    router.route('/auth/token').link(
+          () => AuthController(
+            authServer,
+          ),
+        );
 
     router
         .route("/drivers/[:id]")
         //.link(() => Authorizer.bearer(authServer))
-        .link(() => CarDriversController(context));
-    
+        .link(
+          () => DriversController(
+            getDriverUsecase,
+            getDriversUsecase,
+            deleteDriverUsecase,
+            createDriverUsecase,
+          ),
+        );
+
     router
         .route('/cars/[:id]')
         //.link(() => Authorizer.bearer(authServer))
-        .link(() => CarsController(context));
-    
+        .link(
+          () => CarsController(
+            createCarUsecase,
+            deleteCarUsecase,
+            getCarUsecase,
+            getCarsUsecase,
+          ),
+        );
+
     router
         .route('/random')
         //.link(() => Authorizer.bearer(authServer))
-        .link(() => RandomController(context));
+        .link(
+          () => RandomController(
+            collectRandomPairUsecase,
+          ),
+        );
 
-    router
-        .route('/register')
-        .link(() => RegisterController(context, authServer));
+    router.route('/register').link(
+          () => RegisterController(
+            context,
+            authServer,
+          ),
+        );
 
     return router;
   }

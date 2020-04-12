@@ -1,6 +1,8 @@
-import '../car_drivers.dart';
 
-class DriverDBModel extends ManagedObject<_CarDriver> implements _CarDriver {
+
+import '../../car_drivers.dart';
+
+class DriverModel extends ManagedObject<_CarDriver> implements _CarDriver {
 
 }
 

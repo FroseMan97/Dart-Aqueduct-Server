@@ -1,8 +1,9 @@
-import '../car_drivers.dart';
 
-class CarDBModel extends ManagedObject<_Car> implements _Car {
-  
-}
+
+
+import '../../car_drivers.dart';
+
+class CarModel extends ManagedObject<_Car> implements _Car {}
 
 class _Car {
   @primaryKey

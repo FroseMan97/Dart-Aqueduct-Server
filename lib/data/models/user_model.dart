@@ -1,7 +1,7 @@
 import 'package:aqueduct/managed_auth.dart';
 import 'package:car_drivers/car_drivers.dart';
 
-class User extends ManagedObject<_User> implements _User, ManagedAuthResourceOwner<_User> {
+class UserModel extends ManagedObject<_User> implements _User, ManagedAuthResourceOwner<_User> {
   @Serialize(input: true, output: false)
   String password;
 }
