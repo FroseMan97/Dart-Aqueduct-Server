@@ -41,8 +41,9 @@ class AppChannel extends ApplicationChannel {
   @override
   SecurityContext get securityContext {
     return SecurityContext()
-      ..usePrivateKey("lib/certs/server_localhost.key", password: "1234")
-      ..useCertificateChain("lib/certs/server_localhost.crt", password: "1234");
+      //..usePrivateKey("lib/certs/server_localhost.key", password: "1234")
+      //..useCertificateChain("lib/certs/server_localhost.crt", password: "1234")
+      ;
   }
 
   @override
