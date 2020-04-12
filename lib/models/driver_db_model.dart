@@ -1,6 +1,6 @@
 import '../car_drivers.dart';
 
-class CarDriver extends ManagedObject<_CarDriver> implements _CarDriver, Serializable {
+class DriverDBModel extends ManagedObject<_CarDriver> implements _CarDriver {
 
 }
 

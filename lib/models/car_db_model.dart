@@ -1,6 +1,6 @@
 import '../car_drivers.dart';
 
-class Car extends ManagedObject<_Car> implements _Car {
+class CarDBModel extends ManagedObject<_Car> implements _Car {
   
 }
 

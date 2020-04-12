@@ -1,4 +1,4 @@
-import 'package:car_drivers/models/car_model.dart';
+import 'package:car_drivers/models/car_db_model.dart';
 
 import '../car_drivers.dart';
 
@@ -10,7 +10,7 @@ class CarsController extends ResourceController {
   /// Получить все авто
   @Operation.get()
   Future<Response> getAllCars({@Bind.query('name') String name}) async {
-    final carQuery = Query<Car>(context);
+    final carQuery = Query<CarDBModel>(context);
     if (name != null) {
       carQuery.where((h) => h.name).contains(name, caseSensitive: false);
     }
@@ -24,7 +24,7 @@ class CarsController extends ResourceController {
   /// Получить авто по его id
   @Operation.get('id')
   Future<Response> getCarByID(@Bind.path('id') int id) async {
-    final carQuery = Query<Car>(context)
+    final carQuery = Query<CarDBModel>(context)
       ..where((h) => h.id).equalTo(id);
 
     final car = await carQuery.fetchOne();
@@ -39,9 +39,9 @@ class CarsController extends ResourceController {
 
   @Operation.post()
   Future<Response> addCar(
-    @Bind.body(ignore: ["id"]) Car inputDriver,
+    @Bind.body(ignore: ["id"]) CarDBModel inputDriver,
   ) async {
-    final query = Query<Car>(context)..values = inputDriver;
+    final query = Query<CarDBModel>(context)..values = inputDriver;
 
     final insertedDriver = await query.insert();
     final result = Response.ok(insertedDriver);
@@ -53,7 +53,7 @@ class CarsController extends ResourceController {
   Future<Response> deleteCar(
     @Bind.path('id') int driverID,
   ) async {
-    final query = Query<Car>(context)
+    final query = Query<CarDBModel>(context)
     ..where((item) => item.id).equalTo(driverID);
 
     final deletedID = await query.delete();
