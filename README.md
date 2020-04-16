@@ -3,8 +3,10 @@
 
  Getting started https://aqueduct.io/docs/tut/getting-started/
  
- БД PostgreSQL (в репо не лежит),
+ БД PostgreSQL (в репо не лежит), можно создать по примеру на сайте Aqueduct
+ 
  Авторизация OAuth 2,
+ 
  SSL (self-signed)
 
  Есть простейшие тесты, валидации нет
